@@ -13,14 +13,16 @@ galaxy_info:
   - cloud:ec2
   - web
 dependencies:
+  - role: valhalla.common
+    valhalla_use_common_collectd_conf: no
   - role: Stouts.collectd
-    collectd_enabled: no     # Already enabled via Valhalla.common
+    collectd_write_graphite: yes
     collectd_plugins:
       - apache
     collectd_plugins_options:
       apache:
         - '<Instance "">'
-        - 'URL "http://10.55.55.105/server-status?auto"'
+        - "URL \"http://{{ facter_fqdn }}/server-status?auto\""
         - '</Instance>'
   - role: geerlingguy.apache
     apache_mods_enabled:
