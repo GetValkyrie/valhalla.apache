@@ -1,0 +1,28 @@
+---
+galaxy_info:
+  author: Christopher Gervais (ergonlogic)
+  description: Installs and configures Apache and service monitoring.
+  company: GetValkyrie 
+  license: GPLv3
+  min_ansible_version: 1.2
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+  - cloud:ec2
+  - web
+dependencies:
+  - role: Stouts.collectd
+    collectd_enabled: no     # Already enabled via Valhalla.common
+    collectd_plugins:
+      - apache
+    collectd_plugins_options:
+      apache:
+        - '<Instance "">'
+        - 'URL "http://10.55.55.105/server-status?auto"'
+        - '</Instance>'
+  - role: geerlingguy.apache
+    apache_mods_enabled:
+      - status.load
+  
